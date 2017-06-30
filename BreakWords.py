@@ -12,6 +12,8 @@ for file in os.listdir(news_path):
     with open(os.path.join(news_path, file), 'r', encoding="utf-8") as in_f:
         with open(os.path.join(words_path, file), 'w', encoding="utf-8") as out_f:
             for line in in_f.readlines():
+                if len(line) < 2:
+                    continue
                 # 过滤所有非中文字符
                 p = re.compile(r"[\u4e00-\u9fa5]")
                 res = re.findall(p, line)
@@ -20,5 +22,6 @@ for file in os.listdir(news_path):
                 words = jieba.cut(result)
                 for word in words:
                     out_f.write(word + " ")
+                out_f.write("\n")
             count += 1
             print("{}/{} done.".format(count, file_num))
